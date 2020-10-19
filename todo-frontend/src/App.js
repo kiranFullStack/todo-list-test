@@ -23,6 +23,51 @@ function App() {
         // always executed
       })
   }
+  let postTodos = (title) => {
+    axios
+      .post('http://[::1]:3000/todos/', {
+        title: title,
+        isComplete: false,
+        subtasks: [],
+      })
+      .then(function (response) {
+        console.log(response)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  }
+
+  let deleteTodos = (id) => {
+    axios
+      .delete(`http://[::1]:3000/todos/${id}`)
+      .then(function (response) {
+        console.log(response)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  }
+
+  let patchTodo = (id, title, isComplete, subtasks) => {
+    console.log(
+      title,
+      isComplete,
+      '<------This is the data😊😊😊😊😊😊😊😊😊😊😊😊'
+    )
+    axios
+      .patch(`http://[::1]:3000/todos/${id}`, {
+        title: title,
+        isComplete: isComplete,
+        subtasks: subtasks,
+      })
+      .then(function (response) {
+        console.log(response)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  }
 
   useEffect(() => {
     fetchTodos()
@@ -34,6 +79,8 @@ function App() {
       { id: uuidv4(), title, isComplete: false, subtasks: [] },
     ]
     setTodos(newTodos)
+    console.log(title, '<------This is the data😊😊😊😊😊😊😊😊😊😊😊😊')
+    postTodos(title)
   }
 
   const addTodoSubtask = (index) => {
@@ -41,12 +88,19 @@ function App() {
     const newTodos = [...todos]
     console.log(newTodos[index].subtasks, ';;;;')
 
-    newTodos[index].subtasks.push({
-      id: uuidv4(),
-      title: newSubtask,
-      isComplete: false,
-    })
+    newTodos &&
+      newTodos[index].subtasks.push({
+        id: uuidv4(),
+        title: newSubtask,
+        isComplete: false,
+      })
     console.log(index)
+    patchTodo(
+      newTodos[index].id,
+      newTodos[index].title,
+      newTodos[index].isComplete,
+      newTodos[index].subtasks
+    )
     setTodos(newTodos)
 
     // setTodos(newTodos)
@@ -61,29 +115,40 @@ function App() {
 
   const completeTodoSubtask = (todoId, todosubtaskId) => {
     console.log(todoId, todosubtaskId, ':::')
-    let x = todos.findIndex((element) => element.id === todoId)
-    console.log(todos[x].subtasks[todosubtaskId], '?????')
+    let index = todos.findIndex((element) => element.id === todoId)
+    console.log(todos[index].subtasks[todosubtaskId], '?????')
     const newTodos = [...todos]
-    newTodos[x].subtasks[todosubtaskId].isComplete = !newTodos[x].subtasks[
-      todosubtaskId
-    ].isComplete
+    newTodos[index].subtasks[todosubtaskId].isComplete = !newTodos[index]
+      .subtasks[todosubtaskId].isComplete
+    patchTodo(
+      newTodos[index].id,
+      newTodos[index].title,
+      newTodos[index].isComplete,
+      newTodos[index].subtasks
+    )
     setTodos(newTodos)
   }
 
   const removeTodo = (index) => {
     console.log(index, ':::')
-
     const newTodos = [...todos]
+    deleteTodos(newTodos[index].id)
     newTodos.splice(index, 1)
     setTodos(newTodos)
   }
 
   const removeTodoSubtask = (todoId, todosubtaskId) => {
     console.log(todoId, todosubtaskId, ':::')
-    let x = todos.findIndex((element) => element.id === todoId)
-    console.log(todos[x].subtasks, '?????')
+    let index = todos.findIndex((element) => element.id === todoId)
+    console.log(todos[index].subtasks, '?????')
     const newTodos = [...todos]
-    newTodos[x].subtasks.splice(todosubtaskId, 1)
+    newTodos[index].subtasks.splice(todosubtaskId, 1)
+    patchTodo(
+      newTodos[index].id,
+      newTodos[index].title,
+      newTodos[index].isComplete,
+      newTodos[index].subtasks
+    )
     setTodos(newTodos)
   }
 
@@ -92,20 +157,32 @@ function App() {
     console.log(index, editted)
     const newTodos = [...todos]
     newTodos[index].title = editted
+    patchTodo(
+      newTodos[index].id,
+      newTodos[index].title,
+      newTodos[index].isComplete,
+      newTodos[index].subtasks
+    )
     setTodos(newTodos)
   }
 
   const editTodoSubtask = (todoId, todosubtaskId) => {
     console.log(todoId, todosubtaskId, ':::')
-    let x = todos.findIndex((element) => element.id === todoId)
-    console.log(todos[x].subtasks, '?????')
+    let index = todos.findIndex((element) => element.id === todoId)
+    console.log(todos[index].subtasks, '?????')
     const newTodos = [...todos]
-    console.log(newTodos[x].subtasks[todosubtaskId].title, ',<<<<<<<')
+    console.log(newTodos[index].subtasks[todosubtaskId].title, ',<<<<<<<')
     var edittedSubtask = prompt(
       'Please edit here',
-      newTodos[x].subtasks[todosubtaskId].title
+      newTodos[index].subtasks[todosubtaskId].title
     )
-    newTodos[x].subtasks[todosubtaskId].title = edittedSubtask
+    newTodos[index].subtasks[todosubtaskId].title = edittedSubtask
+    patchTodo(
+      newTodos[index].id,
+      newTodos[index].title,
+      newTodos[index].isComplete,
+      newTodos[index].subtasks
+    )
     setTodos(newTodos)
   }
 
