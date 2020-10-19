@@ -222,7 +222,7 @@ function Dashboard(props) {
         <TodoForm addTodo={addTodo} />
 
         <hr />
-        {JSON.stringify(todos)}
+        {/* {JSON.stringify(todos)} */}
       </div>
     </div>
   )

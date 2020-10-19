@@ -18,5 +18,4 @@ class Auth {
   }
 }
 
-// We're mimicking the singleton pattern
 export default new Auth()

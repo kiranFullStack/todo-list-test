@@ -15,7 +15,6 @@ export const ProtectedRoute = ({ component: Component, ...rest }) => {
           return (
             <Redirect
               to={{
-                // special object that react router expects
                 pathname: '/',
                 state: {
                   from: props.location,

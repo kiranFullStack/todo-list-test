@@ -16,7 +16,7 @@ export default function Todo({
       className='todo'
       style={{ textDecoration: todo.isComplete ? 'line-through' : '' }}
     >
-      {todo.title}
+      <h1>{todo.title}</h1>
       <div>
         <button onClick={() => completeTodo(index)}>Complete</button>
         <button onClick={() => removeTodo(index)}>x</button>
@@ -28,14 +28,14 @@ export default function Todo({
           todo.subtasks &&
           todo.subtasks.map((todosubtask, index) => (
             <div key={todosubtask.id}>
-              <span
+              <h3
                 className='todo'
                 style={{
                   textDecoration: todosubtask.isComplete ? 'line-through' : '',
                 }}
               >
                 {todosubtask.title}
-              </span>
+              </h3>
               <button onClick={() => completeTodoSubtask(todo.id, index)}>
                 Complete Subtask
               </button>
