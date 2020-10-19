@@ -3,8 +3,9 @@ import Todo from './components/Todo'
 import TodoForm from './components/TodoForm'
 import { v4 as uuidv4 } from 'uuid'
 import axios from 'axios'
+import auth from './auth'
 
-function Dashboard() {
+function Dashboard(props) {
   const [todos, setTodos] = useState([])
 
   let fetchTodos = () => {
@@ -109,6 +110,12 @@ function Dashboard() {
     console.log(index, ':::')
     const newTodos = [...todos]
     newTodos[index].isComplete = !newTodos[index].isComplete
+    patchTodo(
+      newTodos[index].id,
+      newTodos[index].title,
+      newTodos[index].isComplete,
+      newTodos[index].subtasks
+    )
     setTodos(newTodos)
   }
 
@@ -188,6 +195,15 @@ function Dashboard() {
   return (
     <div className='app'>
       <div className='todo-list'>
+        <button
+          onClick={() => {
+            auth.logout(() => {
+              props.history.push('/')
+            })
+          }}
+        >
+          Logout
+        </button>
         {todos &&
           todos.map((todo, index) => (
             <Todo
