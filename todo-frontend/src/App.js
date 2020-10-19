@@ -1,11 +1,9 @@
 import React from 'react'
-import './App.css'
+import './App.scss'
 import { Route, Switch } from 'react-router-dom'
-
-import Dashboard from './Dashboard'
-import Login from './Login'
-import { ProtectedRoute } from './ProtectedRoute'
-import './App.css'
+import Dashboard from './components/Dashboard'
+import Login from './components/Login'
+import { ProtectedRoute } from './components/ProtectedRoute'
 
 function App() {
   return (

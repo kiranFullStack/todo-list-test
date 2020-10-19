@@ -1,4 +1,9 @@
 import React from 'react'
+import Button from '@material-ui/core/Button'
+import DeleteIcon from '@material-ui/icons/Delete'
+import EditIcon from '@material-ui/icons/Edit'
+import CheckCircleIcon from '@material-ui/icons/CheckCircle'
+import AddIcon from '@material-ui/icons/Add'
 
 export default function Todo({
   todo,
@@ -13,15 +18,41 @@ export default function Todo({
 }) {
   return (
     <div
-      className='todo'
+      className='main-container'
       style={{ textDecoration: todo.isComplete ? 'line-through' : '' }}
     >
-      <h1>{todo.title}</h1>
-      <div>
-        <button onClick={() => completeTodo(index)}>Complete</button>
-        <button onClick={() => removeTodo(index)}>x</button>
-        <button onClick={() => editTodo(index)}>Edit</button>
-        <button onClick={() => addTodoSubtask(index)}>Add Subtask</button>
+      <div className='task-container'>
+        <h1>{todo.title}</h1>
+        <div>
+          <Button
+            variant='contained'
+            color='primary'
+            onClick={() => completeTodo(index)}
+          >
+            <CheckCircleIcon />
+          </Button>
+          <Button
+            variant='contained'
+            color='primary'
+            onClick={() => removeTodo(index)}
+          >
+            <DeleteIcon />
+          </Button>
+          <Button
+            variant='contained'
+            color='primary'
+            onClick={() => editTodo(index)}
+          >
+            <EditIcon />
+          </Button>
+          <Button
+            variant='contained'
+            color='primary'
+            onClick={() => addTodoSubtask(index)}
+          >
+            <AddIcon />
+          </Button>
+        </div>
       </div>
       <div>
         {todo &&

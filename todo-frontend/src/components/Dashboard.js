@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import Todo from './components/Todo'
-import TodoForm from './components/TodoForm'
+import Todo from './Todo'
+import TodoForm from './TodoForm'
 import { v4 as uuidv4 } from 'uuid'
 import axios from 'axios'
-import auth from './auth'
+import auth from '../auth'
 
 function Dashboard(props) {
   const [todos, setTodos] = useState([])
@@ -194,16 +194,18 @@ function Dashboard(props) {
 
   return (
     <div className='app'>
+      <button
+        onClick={() => {
+          auth.logout(() => {
+            props.history.push('/')
+          })
+        }}
+      >
+        Logout
+      </button>
       <div className='todo-list'>
-        <button
-          onClick={() => {
-            auth.logout(() => {
-              props.history.push('/')
-            })
-          }}
-        >
-          Logout
-        </button>
+        <TodoForm addTodo={addTodo} />
+
         {todos &&
           todos.map((todo, index) => (
             <Todo
@@ -219,7 +221,6 @@ function Dashboard(props) {
               addTodoSubtask={addTodoSubtask}
             />
           ))}
-        <TodoForm addTodo={addTodo} />
 
         <hr />
         {/* {JSON.stringify(todos)} */}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import auth from './auth'
+import auth from '../auth'
 
 const Login = (props) => {
   const [email, setemail] = useState('')
