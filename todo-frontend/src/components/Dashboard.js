@@ -4,6 +4,28 @@ import TodoForm from './TodoForm'
 import { v4 as uuidv4 } from 'uuid'
 import axios from 'axios'
 import auth from '../auth'
+import { makeStyles } from '@material-ui/core/styles'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
+import MenuIcon from '@material-ui/icons/Menu'
+import logo from './logo-TC.png'
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+  appbar: {
+    backgroundColor: '#1D2B30',
+  },
+}))
 
 function Dashboard(props) {
   const [todos, setTodos] = useState([])
@@ -13,7 +35,8 @@ function Dashboard(props) {
       .get('http://[::1]:3000/todos/')
       .then(function (response) {
         console.log(response.data)
-        setTodos(response.data)
+        let reversedarray = response.data.reverse()
+        setTodos(reversedarray)
       })
       .catch(function (error) {
         // handle error
@@ -75,8 +98,8 @@ function Dashboard(props) {
 
   const addTodo = (title) => {
     const newTodos = [
-      ...todos,
       { id: uuidv4(), title, isComplete: false, subtasks: [] },
+      ...todos,
     ]
     setTodos(newTodos)
     console.log(title, '<------This is the data😊😊😊😊😊😊😊😊😊😊😊😊')
@@ -192,17 +215,35 @@ function Dashboard(props) {
     setTodos(newTodos)
   }
 
+  const classes = useStyles()
+
   return (
     <div className='app'>
-      <button
-        onClick={() => {
-          auth.logout(() => {
-            props.history.push('/')
-          })
-        }}
-      >
-        Logout
-      </button>
+      <AppBar position='static' className={classes.appbar}>
+        <Toolbar className='toolbar'>
+          <IconButton
+            edge='start'
+            className={classes.menuButton}
+            color='inherit'
+            aria-label='menu'
+          >
+            <MenuIcon />
+          </IconButton>
+          <img src={logo} alt='Torre Capital' />
+          <Typography variant='h6' className={classes.title}></Typography>
+          <Button
+            onClick={() => {
+              auth.logout(() => {
+                props.history.push('/')
+              })
+            }}
+            color='inherit'
+          >
+            Logout
+          </Button>
+        </Toolbar>
+      </AppBar>
+
       <div className='todo-list'>
         <TodoForm addTodo={addTodo} />
 

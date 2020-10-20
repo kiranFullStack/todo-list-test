@@ -25,28 +25,28 @@ export default function Todo({
         <h1>{todo.title}</h1>
         <div>
           <Button
-            variant='contained'
+            variant='outlined'
             color='primary'
             onClick={() => completeTodo(index)}
           >
             <CheckCircleIcon />
           </Button>
           <Button
-            variant='contained'
+            variant='outlined'
             color='primary'
             onClick={() => removeTodo(index)}
           >
             <DeleteIcon />
           </Button>
           <Button
-            variant='contained'
+            variant='outlined'
             color='primary'
             onClick={() => editTodo(index)}
           >
             <EditIcon />
           </Button>
           <Button
-            variant='contained'
+            variant='outlined'
             color='primary'
             onClick={() => addTodoSubtask(index)}
           >

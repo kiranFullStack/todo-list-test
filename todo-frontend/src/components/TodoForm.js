@@ -1,4 +1,5 @@
 import React from 'react'
+import TextField from '@material-ui/core/TextField'
 
 export default function TodoForm({ addTodo }) {
   const [value, setValue] = React.useState('')
@@ -12,9 +13,12 @@ export default function TodoForm({ addTodo }) {
 
   return (
     <form onSubmit={handleSubmit} className='form-container'>
-      <input
+      <TextField
         type='text'
         className='input'
+        id='outlined-basic'
+        label='What Task do you wanna finish today ?'
+        variant='outlined'
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
