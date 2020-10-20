@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import auth from '../auth'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-import watermark from './logo-watermark.png'
+import watermark from './assets/logo-watermark.png'
 
 const Login = (props) => {
   const [email, setemail] = useState('')

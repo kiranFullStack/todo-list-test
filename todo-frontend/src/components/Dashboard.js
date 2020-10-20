@@ -11,12 +11,12 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
-import logo from './logo-TC.png'
+import logo from './assets/logo-TC.png'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import useSound from 'use-sound'
-import cheering from './cheering.mp3'
-import bloop from './bloop.mp3'
+import cheering from './assets/cheering.mp3'
+import bloop from './assets/bloop.mp3'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,13 +64,12 @@ function Dashboard(props) {
     axios
       .get('http://[::1]:3000/todos/')
       .then(function (response) {
-        console.log(response.data)
         let reversedarray = response.data.reverse()
         setTodos(reversedarray)
       })
       .catch(function (error) {
         // handle error
-        console.log(error)
+
         errornotify()
       })
       .then(function () {
@@ -85,13 +84,11 @@ function Dashboard(props) {
         subtasks: [],
       })
       .then(function (response) {
-        console.log(response)
         // notify()
         // play()
         playBloop()
       })
       .catch(function (error) {
-        console.log(error)
         error()
       })
   }
@@ -100,33 +97,23 @@ function Dashboard(props) {
     axios
       .delete(`http://[::1]:3000/todos/${id}`)
       .then(function (response) {
-        console.log(response)
         notify()
         play()
       })
       .catch(function (error) {
-        console.log(error)
         error()
       })
   }
 
   let patchTodo = (id, title, isComplete, subtasks) => {
-    console.log(
-      title,
-      isComplete,
-      '<------This is the data😊😊😊😊😊😊😊😊😊😊😊😊'
-    )
     axios
       .patch(`http://[::1]:3000/todos/${id}`, {
         title: title,
         isComplete: isComplete,
         subtasks: subtasks,
       })
-      .then(function (response) {
-        console.log(response)
-      })
+      .then(function (response) {})
       .catch(function (error) {
-        console.log(error)
         error()
       })
   }
@@ -141,14 +128,13 @@ function Dashboard(props) {
       ...todos,
     ]
     setTodos(newTodos)
-    console.log(title, '<------This is the data😊😊😊😊😊😊😊😊😊😊😊😊')
     postTodos(title)
   }
 
-  const addTodoSubtask = (index) => {
-    let newSubtask = prompt('Please add a subtask')
+  const addTodoSubtask = (index, input) => {
+    // let newSubtask = prompt('Please add a subtask')
+    let newSubtask = input
     const newTodos = [...todos]
-    console.log(newTodos[index].subtasks, ';;;;')
 
     newTodos &&
       newTodos[index].subtasks.push({
@@ -156,7 +142,7 @@ function Dashboard(props) {
         title: newSubtask,
         isComplete: false,
       })
-    console.log(index)
+
     patchTodo(
       newTodos[index].id,
       newTodos[index].title,
@@ -169,7 +155,6 @@ function Dashboard(props) {
   }
 
   const completeTodo = (index) => {
-    console.log(index, ':::')
     const newTodos = [...todos]
     newTodos[index].isComplete = !newTodos[index].isComplete
     patchTodo(
@@ -182,9 +167,8 @@ function Dashboard(props) {
   }
 
   const completeTodoSubtask = (todoId, todosubtaskId) => {
-    console.log(todoId, todosubtaskId, ':::')
     let index = todos.findIndex((element) => element.id === todoId)
-    console.log(todos[index].subtasks[todosubtaskId], '?????')
+
     const newTodos = [...todos]
     newTodos[index].subtasks[todosubtaskId].isComplete = !newTodos[index]
       .subtasks[todosubtaskId].isComplete
@@ -198,7 +182,6 @@ function Dashboard(props) {
   }
 
   const removeTodo = (index) => {
-    console.log(index, ':::')
     const newTodos = [...todos]
     deleteTodos(newTodos[index].id)
     newTodos.splice(index, 1)
@@ -206,9 +189,8 @@ function Dashboard(props) {
   }
 
   const removeTodoSubtask = (todoId, todosubtaskId) => {
-    console.log(todoId, todosubtaskId, ':::')
     let index = todos.findIndex((element) => element.id === todoId)
-    console.log(todos[index].subtasks, '?????')
+
     const newTodos = [...todos]
     newTodos[index].subtasks.splice(todosubtaskId, 1)
     patchTodo(
@@ -222,7 +204,7 @@ function Dashboard(props) {
 
   const editTodo = (index) => {
     var editted = prompt('Please edit here', todos[index].title)
-    console.log(index, editted)
+
     const newTodos = [...todos]
     newTodos[index].title = editted
     patchTodo(
@@ -235,23 +217,23 @@ function Dashboard(props) {
   }
 
   const editTodoSubtask = (todoId, todosubtaskId) => {
-    console.log(todoId, todosubtaskId, ':::')
     let index = todos.findIndex((element) => element.id === todoId)
-    console.log(todos[index].subtasks, '?????')
     const newTodos = [...todos]
-    console.log(newTodos[index].subtasks[todosubtaskId].title, ',<<<<<<<')
     var edittedSubtask = prompt(
       'Please edit here',
       newTodos[index].subtasks[todosubtaskId].title
     )
-    newTodos[index].subtasks[todosubtaskId].title = edittedSubtask
-    patchTodo(
-      newTodos[index].id,
-      newTodos[index].title,
-      newTodos[index].isComplete,
-      newTodos[index].subtasks
-    )
-    setTodos(newTodos)
+
+    if (edittedSubtask) {
+      newTodos[index].subtasks[todosubtaskId].title = edittedSubtask
+      patchTodo(
+        newTodos[index].id,
+        newTodos[index].title,
+        newTodos[index].isComplete,
+        newTodos[index].subtasks
+      )
+      setTodos(newTodos)
+    }
   }
 
   const classes = useStyles()
@@ -301,8 +283,6 @@ function Dashboard(props) {
               addTodoSubtask={addTodoSubtask}
             />
           ))}
-
-        <hr />
         {/* {JSON.stringify(todos)} */}
       </div>
       <ToastContainer />
