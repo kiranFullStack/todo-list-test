@@ -9,7 +9,7 @@ function App() {
   return (
     <div className='app'>
       <Switch>
-        {/* <Route exact path='/' component={Login} /> */}
+        <Route exact path='/login' component={Login} />
         <Route exact path='/' component={Dashboard} />
         <ProtectedRoute exact path='/todo' component={Dashboard} />
         <Route path='*' component={() => '404 NOT FOUND'} />

@@ -4,9 +4,9 @@ import {juggler} from '@loopback/repository';
 const config = {
   name: 'mongoDs',
   connector: 'mongodb',
-  url: '',
-  host: 'localhost',
-  port: 27017,
+  url: 'mongodb+srv://kiran:kiran@cluster0.yhif6.mongodb.net/mongoDs?retryWrites=true&w=majority',
+  host: '',
+  port: "",
   user: '',
   password: '',
   database: '',

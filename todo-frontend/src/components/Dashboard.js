@@ -12,6 +12,12 @@ import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import logo from './logo-TC.png'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import useSound from 'use-sound'
+import cheering from './cheering.mp3'
+import bloop from './bloop.mp3'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -29,6 +35,30 @@ const useStyles = makeStyles((theme) => ({
 
 function Dashboard(props) {
   const [todos, setTodos] = useState([])
+  const [play] = useSound(cheering)
+  const [playBloop] = useSound(bloop)
+
+  const notify = () =>
+    toast.success('YOU are Awesome!🍾', {
+      position: 'top-center',
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+    })
+
+  const errornotify = () =>
+    toast.error('Oops...Try again', {
+      position: 'top-center',
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+    })
 
   let fetchTodos = () => {
     axios
@@ -41,6 +71,7 @@ function Dashboard(props) {
       .catch(function (error) {
         // handle error
         console.log(error)
+        errornotify()
       })
       .then(function () {
         // always executed
@@ -55,9 +86,13 @@ function Dashboard(props) {
       })
       .then(function (response) {
         console.log(response)
+        // notify()
+        // play()
+        playBloop()
       })
       .catch(function (error) {
         console.log(error)
+        error()
       })
   }
 
@@ -66,9 +101,12 @@ function Dashboard(props) {
       .delete(`http://[::1]:3000/todos/${id}`)
       .then(function (response) {
         console.log(response)
+        notify()
+        play()
       })
       .catch(function (error) {
         console.log(error)
+        error()
       })
   }
 
@@ -89,6 +127,7 @@ function Dashboard(props) {
       })
       .catch(function (error) {
         console.log(error)
+        error()
       })
   }
 
@@ -266,6 +305,7 @@ function Dashboard(props) {
         <hr />
         {/* {JSON.stringify(todos)} */}
       </div>
+      <ToastContainer />
     </div>
   )
 }
